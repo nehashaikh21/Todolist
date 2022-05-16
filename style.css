@@ -1,3 +1,12 @@
 .icons{
     width: 100%;
 }
+.row {
+    width: 60%;
+}
+button {
+    padding: 0px;
+}
+svg {
+    heigth: 100%;
+}
