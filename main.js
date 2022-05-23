@@ -7,7 +7,7 @@ today = dd + '.' + mm + '.' + yyyy;
 document.getElementById('date').innerHTML = today;
 
 
-//--------------------------------------------------------------------------------
+//--------------------------------Adding and deleting Tasks-------------------------------------
 
 function uid() {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
@@ -32,13 +32,13 @@ function addTask (arr) {
             <div class="col-10">
                 <div class="input-group mb-3 p-3">
                     <div class="input-group-text">
-                        <input class="form-check-input id="checkbox" mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                        <input class="form-check-input checkbox" id=${uid()} mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
                     </div>
-                    <input type="text" class="form-control" id="input" value=${newTask.value} readonly aria-label="Text input with checkbox">
+                    <input type="text" class="form-control input" value=${newTask.value} readonly aria-label="Text input with checkbox">
                 </div>
             </div>
             <div class="col-1">
-                <button class="btn btn-outline-secondary mb-3">
+                <button class="btn btn-outline-secondary mb-3 edit-Button" id=${uid()}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                     </svg>
@@ -54,17 +54,61 @@ function addTask (arr) {
             </div>
         <div>
         `
+        //-----------------------Delete Button Functionality-------------------------
 
-        const deleteButton = document.querySelectorAll('.delete-Button');
+        const deleteButtons = document.querySelectorAll('.delete-Button');
 
         const deleteFunction = (id) => (e) => {
             const buttonToDelete = document.getElementById(id);
             buttonToDelete.parentElement.parentElement.remove();
         }
 
-        deleteButton.forEach(button => {
+        deleteButtons.forEach(button => {
             const deleteFunctionId = deleteFunction(button.getAttribute('id'));
             button.addEventListener('click', deleteFunctionId);
+        });
+
+        //-----------------------Edit Button Functionality-------------------------
+
+        const editButtons = document.querySelectorAll('.edit-Button');
+
+        const editFunction = (id) => (e) => {
+            const editButton = document.getElementById(id);
+            const input = editButton.parentElement.parentElement.querySelector('.form-control');
+            //console.log(input);
+            if(input.hasAttribute('readonly')) {
+                input.removeAttribute('readonly');
+            } else {
+                const newValue =  input.value;
+                newTask.value = newValue;
+                input.setAttribute('readonly', '');
+            }
+        }
+
+        editButtons.forEach(button => {
+            const editFunctionId = editFunction(button.getAttribute('id'));
+            button.addEventListener('click', editFunctionId);
+            
+        });
+
+        //-----------------------Finished Button Functionality-------------------------
+
+        const finishButtons = document.querySelectorAll('.checkbox');
+
+        const finishFunction = (id) => (e) => {
+            const checkbox = document.getElementById(id);
+            const inputField = checkbox.parentElement.parentElement.querySelector('.input');
+            if(checkbox.checked == true) {
+                inputField.style.textDecoration = 'line-through';
+            } else {
+                //console.log('is unfinished');
+                inputField.style.textDecoration = 'none';
+            }
+        }
+
+        finishButtons.forEach(button => {
+            const finishFunctionId = finishFunction(button.getAttribute('id'));
+            button.addEventListener('click', finishFunctionId);
         });
     } 
 }
