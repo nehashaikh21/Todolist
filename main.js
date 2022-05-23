@@ -78,10 +78,8 @@ function addTask (arr) {
             //console.log(input);
             if(input.hasAttribute('readonly')) {
                 input.removeAttribute('readonly');
-            } else {
-                const newValue =  input.value;
+                const newValue =  newTask.innerHTML;
                 newTask.value = newValue;
-                input.setAttribute('readonly', '');
             }
         }
 
