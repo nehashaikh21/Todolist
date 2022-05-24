@@ -17,15 +17,18 @@ function uid() {
 
 //console.log(uid());
 
-const newTask = document.getElementById('new-task-input');
+const defaultTask = document.getElementById('new-task-input');
 const addButton = document.getElementById('button-addon2');
 const list = document.getElementById('task-container');
-//console.log(newTask.value);
+
+//console.log(defaultTask.value);
 
 function addTask (arr) {
-    if(newTask.value === '') {
+    if(defaultTask.value === '') {
         alert('Fill in the Task!');
     } else {
+        let newTask = defaultTask;
+        console.log(newTask.value)
         document.querySelector('#task-container').innerHTML +=
         `
         <div class="row border rounded p-3 d-flex align-items-center">
@@ -38,6 +41,12 @@ function addTask (arr) {
                 </div>
             </div>
             <div class="col-1">
+                <button class="btn btn-outline-secondary mb-3 save-Button" id=${uid()}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 0 16 16">
+                    <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                    </svg>
+                </button>
                 <button class="btn btn-outline-secondary mb-3 edit-Button" id=${uid()}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
@@ -54,6 +63,7 @@ function addTask (arr) {
             </div>
         <div>
         `
+        newTask="";
         //-----------------------Delete Button Functionality-------------------------
 
         const deleteButtons = document.querySelectorAll('.delete-Button');
@@ -71,23 +81,41 @@ function addTask (arr) {
         //-----------------------Edit Button Functionality-------------------------
 
         const editButtons = document.querySelectorAll('.edit-Button');
-
+        const saveButtons = document.querySelectorAll('.save-Button');
         const editFunction = (id) => (e) => {
             const editButton = document.getElementById(id);
-            const input = editButton.parentElement.parentElement.querySelector('.form-control');
+            let input = editButton.parentElement.parentElement.querySelector('.input');
             //console.log(input);
             if(input.hasAttribute('readonly')) {
-                input.removeAttribute('readonly');
-            } else {
-                const newValue =  input.value;
-                newTask.value = newValue;
-                input.setAttribute('readonly', '');
+                input.removeAttribute('readonly');          
             }
         }
 
         editButtons.forEach(button => {
             const editFunctionId = editFunction(button.getAttribute('id'));
             button.addEventListener('click', editFunctionId);
+            
+        });
+
+        //-----------------------Save Button Functionality------------------------------------
+
+        const saveFunction = (id) => (e) => {
+            const buttonToSave = document.getElementById(id);
+            let editedInput = buttonToSave.parentElement.parentElement.querySelector('.input');
+            //buttonToSave.style.visibility="hidden";
+            const editButton = document.getElementById(id);
+            if(editedInput.value != newTask.value){
+                newTask =  editedInput.value;
+                //console.log(editedInput.value);
+                //console.log(newTask)
+                editedInput.setAttribute('readonly', ''); 
+                editedInput.setAttribute('value', newTask);
+            }  
+        }
+        
+        saveButtons.forEach(button => {
+            const saveFunctionId = saveFunction(button.getAttribute('id'));
+            button.addEventListener('click', saveFunctionId);
             
         });
 
