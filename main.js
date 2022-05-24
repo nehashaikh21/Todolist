@@ -28,7 +28,7 @@ function addTask (arr) {
         alert('Fill in the Task!');
     } else {
         let newTask = defaultTask;
-        console.log(newTask.value)
+        //console.log(newTask.value)
         document.querySelector('#task-container').innerHTML +=
         `
         <div class="row border rounded p-3 d-flex align-items-center">
@@ -63,7 +63,6 @@ function addTask (arr) {
             </div>
         <div>
         `
-        newTask="";
         //-----------------------Delete Button Functionality-------------------------
 
         const deleteButtons = document.querySelectorAll('.delete-Button');
@@ -81,13 +80,15 @@ function addTask (arr) {
         //-----------------------Edit Button Functionality-------------------------
 
         const editButtons = document.querySelectorAll('.edit-Button');
-        const saveButtons = document.querySelectorAll('.save-Button');
+
         const editFunction = (id) => (e) => {
             const editButton = document.getElementById(id);
             let input = editButton.parentElement.parentElement.querySelector('.input');
-            //console.log(input);
             if(input.hasAttribute('readonly')) {
                 input.removeAttribute('readonly');          
+            } else {
+                input.setAttribute('readonly', '');
+                input.setAttribute('value', input.value);
             }
         }
 
@@ -99,17 +100,14 @@ function addTask (arr) {
 
         //-----------------------Save Button Functionality------------------------------------
 
+        const saveButtons = document.querySelectorAll('.save-Button');
+
         const saveFunction = (id) => (e) => {
             const buttonToSave = document.getElementById(id);
             let editedInput = buttonToSave.parentElement.parentElement.querySelector('.input');
-            //buttonToSave.style.visibility="hidden";
-            const editButton = document.getElementById(id);
-            if(editedInput.value != newTask.value){
-                newTask =  editedInput.value;
-                //console.log(editedInput.value);
-                //console.log(newTask)
+            if(editedInput.value != ''){
                 editedInput.setAttribute('readonly', ''); 
-                editedInput.setAttribute('value', newTask);
+                editedInput.setAttribute('value', editedInput.value);
             }  
         }
         
@@ -129,7 +127,6 @@ function addTask (arr) {
             if(checkbox.checked == true) {
                 inputField.style.textDecoration = 'line-through';
             } else {
-                //console.log('is unfinished');
                 inputField.style.textDecoration = 'none';
             }
         }
