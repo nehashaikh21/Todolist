@@ -86,7 +86,6 @@ function addTask (arr) {
             let input = editButton.parentElement.parentElement.querySelector('.input');
             if(input.hasAttribute('readonly')) {
                 input.removeAttribute('readonly');
-                //console.log(editButton);
                 editButton.innerHTML =
                 `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 0 16 16">
                     <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
@@ -108,25 +107,6 @@ function addTask (arr) {
             button.addEventListener('click', editFunctionId);
             
         });
-
-        //-----------------------Save Button Functionality------------------------------------
-
-        /*const saveButtons = document.querySelectorAll('.save-Button');
-
-        const saveFunction = (id) => (e) => {
-            const buttonToSave = document.getElementById(id);
-            let editedInput = buttonToSave.parentElement.parentElement.querySelector('.input');
-            if(editedInput.value != ''){
-                editedInput.setAttribute('readonly', ''); 
-                editedInput.setAttribute('value', editedInput.value);
-            }  
-        }
-        
-        saveButtons.forEach(button => {
-            const saveFunctionId = saveFunction(button.getAttribute('id'));
-            button.addEventListener('click', saveFunctionId);
-            
-        });*/
 
         //-----------------------Finished Button Functionality-------------------------
 
